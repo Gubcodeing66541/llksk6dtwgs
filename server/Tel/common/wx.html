@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+2323
+</body>
+<script>
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+            console.log('用户回到了页面');
+        } else if (document.visibilityState === 'hidden') {
+            console.log('用户离开了页面');
+        }
+    });
+
+
+</script>
+</html>
+
+
