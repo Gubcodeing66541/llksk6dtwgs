@@ -1,0 +1,103 @@
+version: '3'
+services:
+  mysql57:
+    container_name: mysql57
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    image: mysql:5.7
+    environment:
+        MYSQL_ROOT_PASSWORD: laimi151813
+        MYSQL_DATABASE: chat
+        MYSQL_CHARSET: utf8mb4
+        MYSQL_COLLATION: utf8mb4_general_ci
+        MYSQL_INITDB_CHARACTER_SET: utf8mb4
+        MYSQL_INITDB_COLLATION: utf8mb4_general_ci
+        MYSQL_CHARACTER_SET_SERVER: utf8mb4
+        MYSQL_COLLATION_SERVER: utf8mb4_general_ci
+        LANG: C.UTF-8
+  redis8:
+    container_name: redis8
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis:/data
+    image: redis:5.0.5
+    command: [ "redis-server", "--requirepass", "laimi151813" ]
+    environment:
+        REDIS_PASSWORD: laimi151813
+  nsqlookupd:
+    container_name: nsqlookupd
+    ports:
+      - "4160:4160"
+      - "4161:4161"
+    volumes:
+      - ./nsq:/data
+    image: nsqio/nsq:v1.2.0
+    command: /nsqlookupd
+  nsq:
+    container_name: nsq
+    ports:
+      - "4150:4150"
+      - "4151:4151"
+      - "4170:4170"
+      - "4171:4171"
+    volumes:
+      - ./nsq:/data
+    image: nsqio/nsq:v1.2.0
+    command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+    environment:
+        NSQD_TCP_ADDRESS: nsqlookupd:4160
+    depends_on:
+      - nsqlookupd
+    links:
+      - nsqlookupd
+  golang:
+    container_name: golang
+    ports:
+      - "81:80"
+    volumes:
+      - ./../:/home/app
+    image: golang:1.13.4
+    command: bash -c "cd /home/app && sleep 8s && cp config.json.example config.json && chmod -R 777 server && ./server"
+    depends_on:
+      - mysql57
+      - redis8
+      - nsq
+      - nsqlookupd
+    links:
+      - mysql57
+      - redis8
+      - nsq
+      - nsqlookupd
+
+  task:
+    container_name: task
+    volumes:
+      - ./../:/home/app
+    image: golang:1.13.4
+    command: bash -c "cd /home/app && sleep 8s && cp config.json.example config.json && chmod -R 777 tools && ./tools"
+    depends_on:
+      - mysql57
+      - redis8
+      - nsq
+      - nsqlookupd
+    links:
+      - mysql57
+      - redis8
+      - nsq
+      - nsqlookupd
+  nginx:
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./../:/home/server/
+    image: nginx:1.17.6
+    depends_on:
+      - golang
+    links:
+      - golang

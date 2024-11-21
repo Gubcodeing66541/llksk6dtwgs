@@ -1,0 +1,52 @@
+{
+  "model": "stable",
+  "debug": true,
+  "port": 80,
+  "ip_registry_key" : "PS9R8NODNSK7GGPO",
+  "database": {
+    "mysql": {
+      "host": "mysql57",
+      "port": 3306,
+      "database": "chat",
+      "username": "root",
+      "password": "laimi151813"
+    },
+    "redis": {
+      "host": "redis8",
+      "port": 6379,
+      "password": "laimi151813"
+    }
+  },
+  "client": {
+    "ping_second": 10,
+    "pay_time_out": 3600
+  },
+  "oss": {
+    "ali": {
+      "region": "hongkong",
+      "access_key_id": "LTAI5tKcdVEq6b99Ysi64hhc",
+      "access_key_secret": "hkj05AsZBWNGpJjlNA7TcbUMrMzlN9"
+    }
+  },
+  "manager": {
+    "username": "admin",
+    "password": "laimi151813",
+    "authKey" : "laifengkey147258369874563214"
+  },
+  "head_img_url": "/static/static/head/",
+  "http_host": "http://43.156.69.176",
+  "mq": {
+    "nsq": {
+      "host": "nsq:4150"
+    }
+  },
+  "live_app_key": "API8WjpZQMMPF3c",
+  "live_app_secret": "mHdPhNUQTm7gnFYyzRI4mLvegL1yUeZ5fHDSeD5yzFsD",
+  "live_app_host": "https://call.xio.ink",
+  "aes_key": "CF43D04DC04A4450",
+  "pay_url": "http://127.0.0.1:8080/api/user/order/create",
+  "pay_config": {
+    "user_id" : 1,
+    "password": "laimi"
+  }
+}

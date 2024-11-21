@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>socketText</title>
+</head>
+<body>
+    <div id="info"></div>
+</body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    var ws = new WebSocket("ws://127.0.0.1/api/websocket/conn")
+    ws.onopen = function (){
+        $('#info').append(createDate("connect success"))
+        ws.send("{'type':'ping'}")
+    }
+
+    ws.onmessage = function (e){
+        $('#info').append(createDate(e.data))
+    }
+
+    ws.onclose = function (){
+        $('#info').append(createDate("close success"))
+    }
+
+    function createDate(msg){
+        return "<div>"+msg+"</div>"
+    }
+</script>
+
+</html>

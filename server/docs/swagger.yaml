@@ -1,0 +1,270 @@
+info:
+  contact: {}
+  description: |-
+    客服系统api `
+    客服后端：`
+  title: 客服系统API文档`
+  version: 1.0`
+paths:
+  /api/service/auth/login:
+    post:
+      parameters:
+      - description: 账号
+        in: query
+        name: member
+        required: true
+        type: string
+      responses: {}
+      summary: 登录
+      tags:
+      - 客服信息
+  /api/service/create_live_token/2:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 客服名称
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: 客服头像
+        in: query
+        name: head
+        type: string
+      responses: {}
+      summary: 创建视频通话
+      tags:
+      - 客服信息
+  /api/service/info:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses: {}
+      summary: 获取客服基本信息
+      tags:
+      - 客服信息
+  /api/service/rooms/detail:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 用户ID
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      responses: {}
+      summary: 房间-获取用户房间详细
+      tags:
+      - 房间信息
+  /api/service/rooms/list:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 用户名
+        in: query
+        name: user_name
+        type: string
+      - description: all 所有 user_no_read  用户未读 server_read 已回复 server_no_read 未回复
+          top 置顶 black 拉黑
+        in: query
+        name: type
+        type: string
+      - description: 指定页
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 指定每页数量
+        in: query
+        name: offset
+        required: true
+        type: integer
+      responses: {}
+      summary: 房间-获取用户房间列表
+      tags:
+      - 房间信息
+  /api/service/update:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 客服名称
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: 客服头像
+        in: query
+        name: head
+        type: string
+      responses: {}
+      summary: 修改客服头像和昵称
+      tags:
+      - 客服信息
+  /api/service_message/create:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 消息内容
+        in: query
+        name: msg_info
+        required: true
+        type: string
+      - description: 消息类型 text文本 image图片 video视频 link链接
+        in: query
+        name: msg_type
+        required: true
+        type: string
+      - description: 类型 hello打招呼 quick_reply快捷回复 leave离线消息
+        in: query
+        name: type
+        required: true
+        type: string
+      responses: {}
+      summary: 快捷消息-创建
+      tags:
+      - 快捷消息
+  /api/service_message/delete:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 删除的消息指定ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      summary: 快捷消息-删除
+      tags:
+      - 快捷消息
+  /api/service_message/list:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 条目数
+        in: query
+        name: limit
+        required: true
+        type: string
+      - description: 分页
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: 类型 hello打招呼 quick_reply快捷回复 leave离线消息
+        in: query
+        name: type
+        required: true
+        type: string
+      responses: {}
+      summary: 快捷消息-列表
+      tags:
+      - 快捷消息
+  /api/service_message/swap:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 来自于的交换ID
+        in: query
+        name: form
+        required: true
+        type: string
+      - description: 来给予交换ID
+        in: query
+        name: to
+        required: true
+        type: string
+      responses: {}
+      summary: 快捷消息-位置交换
+      tags:
+      - 快捷消息
+  /api/service_message/update:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 修改ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: 消息内容
+        in: query
+        name: msg_info
+        required: true
+        type: string
+      - description: 消息类型 text文本 image图片 video视频 link链接
+        in: query
+        name: msg_type
+        required: true
+        type: string
+      - description: 类型 hello打招呼 quick_reply快捷回复 leave离线消息
+        in: query
+        name: type
+        required: true
+        type: string
+      - description: enable 启用 un_enable 禁用
+        in: query
+        name: status
+        required: true
+        type: string
+      responses: {}
+      summary: 快捷消息-修改
+      tags:
+      - 快捷消息
+  /api/system/upload:
+    post:
+      parameters:
+      - description: 认证token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 文件参数
+        in: formData
+        name: image
+        required: true
+        type: file
+      responses: {}
+      summary: 系统默认文件上传
+      tags:
+      - 公共接口
+swagger: "2.0"

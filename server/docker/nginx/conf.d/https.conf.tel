@@ -1,0 +1,35 @@
+server {
+    listen 443 ssl;
+
+    ssl_certificate /home/server/golang/nginx/ssl/server.pem;
+    ssl_certificate_key /home/server/golang/nginx/ssl/server.key;
+
+
+    # add_header Access-Control-Allow-Origin '*';
+    # add_header Access-Control-Allow-Methods 'GET, POST, PUT, DELETE, OPTIONS, fetch';
+    # add_header Access-Control-Allow-Headers 'Content-Length, Host, Accept-Ranges, Referer, fetch, Referrer, Policy, Connection, Accept-Language, Accept-Encoding, Accept, Server, reqid, Last-Modified, Keep-Alive, ETag, Date, Referer, User-Agent, Sec-Fetch-Dest, Sec-Fetch-Site, Test-Cors, Cors, Origin, Sec-Fetch-Mode, X-Requested-With, Content-Type, Accept, sessionId, token';
+    # add_header Access-Control-Allow-Credentials 'true';
+    # add_header Content-Type 'text/plain charset=UTF-8';
+    #
+    # if ($request_method = 'OPTIONS') {
+    #     return 204;
+    # }
+
+    location / {
+        proxy_pass http://server;
+    }
+
+    location /api/common/connect {
+            proxy_pass http://server;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Sec-WebSocket-Extensions $http_sec_websocket_extensions;
+            proxy_set_header Sec-WebSocket-Key $http_sec_websocket_key;
+            proxy_set_header Sec-WebSocket-Version $http_sec_websocket_version;
+    }
+}
