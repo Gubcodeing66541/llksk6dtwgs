@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover, user-scalable=0">
+  <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+  <meta name="author" content="GeeksLabs">
+  <meta name="keyword" content="Creative, Dashboard, Admin, Template, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+  <title>.</title>
+  <style>
+    *{margin:0;padding:0;}
+    html{background-color:white;height:100%;}
+    body{
+      width:100%;
+      height:100%;
+      background:url(/../common/contact.jpg) no-repeat;background-position:center;
+      background-attachment:fixed;
+      background-size:cover;
+    }
+  </style>
+</head>
+<body onclick="jump()">
+<script>
+  document.addEventListener('WeixinJSBridgeReady',function onBridgeReady() {
+    WeixinJSBridge.call('hideOptionMenu') });
+  window.onbeforeunload =function (e) {
+    document.removeEventListener('WeixinJSBridgeReady',function onBridgeReady() {
+      WeixinJSBridge.call('hideOptionMenu')
+    });
+  };
+  function jump() {
+    location.replace('{{.url}}')
+}
+</script>
+</body>
+</html>
+  

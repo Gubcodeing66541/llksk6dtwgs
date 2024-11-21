@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户在线统计</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.0.1/vue.min.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <table>
+        <thead>
+        <tr>
+            <th>统计时间</th>
+            <th>访问用户数</th>
+            <th>访问IP数</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  v-for="item in message">
+            <td>[[ item.times ]]</td>
+            <td>[[ item.user_cnt ]]</td>
+            <td>[[ item.ip_cnt ]]</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+<style scoped>
+    table{
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+    }
+    table td, table th{
+        border: 1px solid #cad9ea;
+        color: #666;
+        height: 30px;
+    }
+    table thead th{
+        background-color: #CCE8EB;
+        width: 100px;
+    }
+    table tr:nth-child(odd){
+        background: #fff;
+    }
+    table tr:nth-child(even){
+        background: #F5FAFA;
+    }
+</style>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: JSON.parse('{{.count}}')
+        },
+        delimiters: ['[[', ']]'],
+    });
+</script>

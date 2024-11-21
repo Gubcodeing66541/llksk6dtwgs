@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+q
+</body>
+<script>
+    // 生成一个UUID
+    function CreateUUID() {
+        function guid2() {
+            function S4() {
+                return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+            }
+            return code + "_" + (S4() + S4() + "_" + S4() + "_" + S4() + "_" + S4() + "_" + S4() + S4() + S4());
+        }
+        return guid2() + "_" + new Date().getTime()
+    }
+</script>
+</html>

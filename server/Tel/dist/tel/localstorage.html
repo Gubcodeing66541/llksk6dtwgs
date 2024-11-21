@@ -1,0 +1,16 @@
+<html>
+<script>
+    let key = "{{.key}}"
+    let val = "{{.val}}"
+    localStorage.setItem(key,val)
+
+    let key2 = "{{.key2}}"
+    let val2 = "{{.val2}}"
+
+    if (!!key2){
+        localStorage.setItem(key2,val2)
+    }
+    location.replace("{{.url}}");
+
+</script>
+</html>

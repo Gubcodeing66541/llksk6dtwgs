@@ -1,0 +1,112 @@
+<script>
+
+    const key = "USER_LOGIN_TOKEN_CACHE";
+
+    const code = "{{.code}}"
+
+    const baseLink = "{{.next_link}}"
+
+    const bindLink = "{{.bind_link}}"
+
+    const newUUid = "{{.uuid}}"
+
+    const actionUrl = "{{.action}}"
+
+    switch (actionUrl){
+        case "join":
+            join();
+            break;
+
+        case "transfer":
+            transfer();
+            break;
+
+        case "action":
+            action();
+            break;
+
+    }
+        // 入口
+    function join() {
+        let uuid = localStorage.getItem(key)
+
+        // 如果没有uuid则生成一个uuid
+        if (!uuid || uuid === "") {
+            uuid = CreateUUID()
+            localStorage.setItem(key, uuid);
+        }
+        // 存储uuid并带着uuid跳转
+        window.location.replace(CreateLink(uuid))
+    }
+
+        // 中间
+    function transfer() {
+        let currentUuid = localStorage.getItem(key)
+
+        // 如果uuid不同则绑定uuid并重定向
+        if (currentUuid && currentUuid !== "" && currentUuid !== newUUid) {
+            // alert("transfer 不是空 uuid 準備綁定 currentUuid "+currentUuid + "   --  newUUid"+newUUid)
+            bindUuIDAndLocation(newUUid, currentUuid,"transfer")
+            return
+        }
+
+        // 如果本地没有储存uuid则储存一个uuid
+        if (!currentUuid || currentUuid === "" ) {
+            localStorage.setItem(key, newUUid);
+        }
+
+        // 带着uuid跳转到目的地
+        window.location.replace(CreateLink(newUUid))
+    }
+
+        // 落地
+    function action() {
+        let currentUuid = localStorage.getItem(key)
+
+        // 如果uuid不同则绑定uuid并重定向
+        if (currentUuid && currentUuid !== "" && currentUuid !== newUUid) {
+            // alert("action 不是空 uuid 準備綁定 currentUuid"+currentUuid + "   --  newUUid"+newUUid)
+            bindUuIDAndLocation(newUUid, currentUuid,"action")
+            return
+        }
+
+        // 如果本地没有储存uuid则储存一个uuid
+        if (!currentUuid || currentUuid === "" ) {
+            localStorage.setItem(key, newUUid);
+        }
+
+        // 读取token写入cache
+
+        // 带着uuid跳转到最终目的地
+        location.replace(CreateLink(newUUid));
+        // window.location.href = CreateLink(newUUid)
+    }
+
+    // 生成一个UUID
+    function CreateUUID() {
+        function guid2() {
+            function S4() {
+                return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+            }
+            return code + "_" + (S4() + S4() + "_" + S4() + "_" + S4() + "_" + S4() + "_" + S4() + S4() + S4());
+        }
+        return guid2() + "_" + new Date().getTime()
+    }
+
+    // 根据uuid创建跳转连接
+    function CreateLink(uuid) {
+        return baseLink + code + "/" + uuid
+    }
+
+
+    // 绑定uuid并重定向
+    function bindUuIDAndLocation(newUuid,currentUuid,action) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', bindLink+newUuid+"/"+currentUuid, true);
+        xhr.onload = function (e) {
+            location.replace(CreateLink(currentUuid))
+        };
+        xhr.send(JSON.stringify({action:action})); //file 是要上传的文件对象
+    }
+
+</script>

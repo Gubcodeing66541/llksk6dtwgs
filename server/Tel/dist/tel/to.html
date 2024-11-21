@@ -1,0 +1,80 @@
+<body></body>
+<script>
+
+    // 获取code key
+    let code = "{{.code}}"
+    let key = "{{.key}}"
+
+    // 获取loCode loToken
+    let loCode = localStorage.getItem('code')
+    let loToken = localStorage.getItem('user_token')
+
+    function run(){
+        // 如果code存在并且不为空 并且loCode存在并且不为空 并且loCode等于code 并且loToken存在并且不为空 就跳转到action
+        let loCodeCheckIsTrue = loCode !== "" && loCode !== null && loCode !== undefined && loCode === code
+        let loTokenCheckIsTrue = loToken !== "" && loToken !== null && loToken !== undefined
+        if (loCodeCheckIsTrue && loTokenCheckIsTrue){
+            window.location.href = "/fu"
+            console.log("用户和code都是同一个且都在都在")
+            return
+        }
+
+        // 保存code
+        localStorage.setItem('code', code)
+
+        // 检测token 如果token不存在则注册 先检测IP 在注册
+        if (loToken !== "" && loToken !== null && loToken !== undefined){
+            console.log("token存在",loToken)
+            window.location.href = "/fu"
+            return
+        }
+
+        // todo 检测IP 云厂商的IP直接频闭
+        syncIP()
+
+        // 注册并跳转 todo IP需要获取位置信息
+        // register()
+    }
+
+    function syncIP(){
+
+        fetch('http://api.ipregistry.co/?key=ps9r8nodnsk7ggpo')
+            .then(function (response) {return response.json();})
+            .then(function (data) {
+                for (let keys in data['security']){
+                    if (keys === 'vpn' && data['security'][keys] === true){
+                        continue
+                    }
+                    if (data['security'][keys] === true){
+                        window.location.href = "http://www.baidu.com"
+                    }
+                }
+                console.log(data.location['city'])
+                register(data.location['city'])
+            })
+            .catch(function (err) {
+                register()
+            })
+    }
+
+    function register(city){
+        const data = {code: code, city: city};
+        fetch('/api/user/ua/register', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)})
+            .then(function (response) {return response.json();})
+            .then(function (data) {
+                console.log(data)
+                if (data.code !== 200){
+                    alert(data.msg)
+                    window.location.href = "http://www.baidu.com"
+                }else{
+                    localStorage.setItem('user_token', data.data.token)
+                    window.location.href = "/fu"
+                }
+            }).catch(function (err) {
+            console.log("IP信息获取失败",err)
+        })
+    }
+    // 运行
+    run()
+
+</script>
