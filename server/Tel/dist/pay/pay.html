@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自助支付系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0, user-scalable=no, minimum-scale=1.0"/>
+
+</head>
+<body>
+
+<div class="main">
+
+
+    <div class="data">
+        <form action="/api/payment/post" id="form" method="post">
+            <div class="card">
+                <div class="detail" style="color: rgb(50,51,53);"><b>莱米客服自助支付系统</b></div>
+                <p style="padding:5px;color: rgb(50,51,53)"><span style="color:rgb(152,153,155)">支付单价：</span>10 USDT</p>
+                <p style="padding:5px;color: rgb(50,51,53)"><span style="color:rgb(152,153,155)">支付方式：</span>波场 TRC20 </p>
+                <p style="padding:5px;color: rgb(50,51,53)"><span style="color:rgb(152,153,155)">支持钱包：</span>支持波场的所有钱包软件</p>
+                <p style="padding:5px;color: rgb(50,51,53)"><span style="color:rgb(152,153,155)">交易方式：</span>在线支付</p>
+                <p style="padding:5px;color: rgb(50,51,53)"><span style="color:rgb(152,153,155)">联系方式：</span>laimi</p>
+                <p style="padding:5px;color: rgb(50,51,53)"><span style="color:rgb(152,153,155)">续费账号：</span>
+                    <input class="member_input" name="member" placeholder="不填写默认创建账号，填写激活码则自动续费">
+                </p>
+                <p style="padding:5px;color: rgb(50,51,53)"><span style="color:rgb(152,153,155)">开通天数：</span>
+                    <select class="form-control info-select" name="day">
+                        <option value="1" selected="selected">1 天</option>
+                        <option value="2">2 天</option>
+                        <option value="3">3 天</option>
+                        <option value="5">5 天</option>
+                        <option value="10">10 天</option>
+                        <option value="15">15 天</option>
+                        <option value="30">30 天</option>
+                    </select>
+                </p>
+                <p style="width: 100%;margin-top: 15px; height:1px;border-bottom: #ccc 1px dashed"></p>
+                <p style="padding:5px;margin-top: 15px;color: rgb(152,153,155)">使用说明：</p>
+                <p style="padding:5px;color: rgb(152,153,155)">1. 本系统用于客户自助创建账号或续费功能 </p>
+                <p style="padding:5px;color: rgb(152,153,155)">2. 支付总价是单价 * 支付天数,例如1天10U、2天20U以此内推 </p>
+                <p style="padding:5px;color: rgb(152,153,155)">3. 创建账号会自动创建新的账号，续费账号输入续费激活码会自动续费。</p>
+                <p style="padding:5px;color: rgb(152,153,155)">4. 本系统支付仅支持TRC20地址，代币仅支持USDT。</p>
+                <p style="padding:5px;color: rgb(152,153,155)">5. 请务必在5分钟内完成支付。如果有问题请及时联系客服。</p>
+                <p style="padding:5px;color: rgb(152,153,155)">6. 其他问题咨询以及支付异常请联系：laimi</p>
+
+            </div>
+        </form>
+    </div>
+
+    <div class="content">
+        <div class="button" id="submit"><b>确认支付</b></div>
+    </div>
+
+</div>
+
+</body>
+</html>
+<style>
+    *{padding: 0;margin: 0;border: 0}
+    :root {
+        --app-height: 100%;
+    }
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        height: var(--app-height);
+    }
+    .detail{
+        width: 100vw;
+        padding: 5px;
+        font-size: 20px;
+        letter-spacing:2px;
+        text-align: center;
+    }
+    .main{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100vw;
+        background: rgb(246,247,249);
+    }
+    .content{
+        display: flex;
+        flex-direction: row;
+        justify-content:space-around;
+        align-items: center;
+    }
+    .button{
+        width: 80vw;
+        height: 60px;
+        margin-bottom: 10px;
+        text-align: center;
+        line-height: 60px;
+        border-radius: 5px;
+        font-size: 22px;
+        color: #fff;
+        background: #00a0e9;
+    }
+    .data{
+        overflow: hidden;
+        box-sizing:border-box;
+
+        /*padding: 20px;*/
+        width: 100%;
+        padding: 0px 20px 20px 20px;
+    }
+    .card{
+        width: auto;
+        margin: 15px auto 15px auto;
+        background: #fff;
+        padding: 20px 20px 20px 20px;
+    }
+
+    .form-control {
+        /*display: block;*/
+        width: 80px;
+        height: 34px;
+        padding: 4px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+
+    /* IE浏览器下隐藏下拉按钮 */
+    select::-ms-expand { display: none; }
+
+    /* 定义隐藏下拉框默认样式及图片覆盖下拉按钮 */
+    .info-select{
+        width: 80px;
+        outline:none;
+        appearance:none;
+        -moz-appearance:none;
+        -webkit-appearance:none;
+        -ms-appearance:none;
+    }
+    .member_input{
+        width: 280px;
+        /*height: 34px;*/
+        padding: 5px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+    .member_input:focus{
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    }
+</style>
+
+<script>
+    var n = 0
+    const appHeight = () => {
+        const doc = document.documentElement
+        doc.style.setProperty('--app-height', `${window.innerHeight}px`)
+    }
+    window.addEventListener('resize', appHeight)
+    appHeight()
+
+    document.getElementById("submit").onclick = function () {
+        n++
+        if (n === 1){
+            console.log("ok")
+            document.getElementById("form").submit();
+        }else{
+            alert("系统正在处理中，请勿重复点击")
+        }
+    }
+</script>

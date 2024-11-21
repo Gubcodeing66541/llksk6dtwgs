@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0, user-scalable=no, minimum-scale=1.0"/>
+
+    <title>Title</title>
+</head>
+<body>
+<div class="root">
+    <div style="padding: 20px;text-align: center;margin-top: 25vh">
+        <p style="font-size: 24px;color: green"><b><span style="font-size: 30px">√</span> 恭喜！您已支付成功！</b></p>
+        <p style="font-size: 20px;color: green;margin-top: 50px"><b>您的账号是：<span style="color: red">{{.member}}</span></b></p>
+        <p style="font-size: 14px;color: #4d4d4d;margin-top: 20px"><b>请注意保存账号,支付账号后点击按钮登录</b></p>
+        <p style="font-size: 14px;color: #4d4d4d;margin-top: 10px"><b>如果忘记账号可以联系客服: laimi03</b></p>
+        <p style="font-size: 14px;color: #4d4d4d;margin-top: 10px"><b>请注意保存账号！请注意保存账号！请注意保存账号！</b></p>
+        <p style="font-size: 20px;margin-top: 40px"> <a href="http://api.boringking.com/service"><button class="niceButton2">点击跳转登录</button></a></p>
+    </div>
+</div>
+</body>
+</html>
+<style>
+    *{padding: 0;margin: 0;border: 0}
+    :root {
+        background: green;
+        --app-height: 100%;
+    }
+    html,
+    body {
+        background: rgb(246,247,249);
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+        height: var(--app-height);
+    }
+
+    .niceButton2{
+        position: relative;
+        background-color:green;
+        border: none;
+        font-size: 20px;
+        color: #ffffff;
+        padding: 8px;
+        width: 180px;
+        text-align: center;
+        transition-duration: 0.6s;
+        text-decoration: none;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    .niceButton2::after{
+        content: '';
+        background:#53a4f0;
+        display: block;
+        position: absolute;
+        padding-top: 300%;
+        padding-left: 350%;
+        margin-left: -20px !important;
+        margin-top: -120%;
+        opacity: 0;
+        transition:all 0.8s;
+    }
+    .niceButton2:active::after{
+        padding: 0;
+        margin: 0;
+        opacity: 1;
+        transition: 0s;
+    }
+</style>
+
+<script>
+    const appHeight = () => {
+        const doc = document.documentElement
+        doc.style.setProperty('--app-height', `${window.innerHeight}px`)
+    }
+    window.addEventListener('resize', appHeight)
+    appHeight()
+</script>

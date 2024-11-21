@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="root">
+    <div>
+        create
+    </div>
+
+    <div>
+        update
+    </div>
+</div>
+</body>
+</html>
+<style>
+    *{padding: 0;margin: 0;border: 0}
+    :root {
+        background: green;
+        --app-height: 100%;
+    }
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+        height: var(--app-height);
+    }
+
+</style>
+
+<script>
+    const appHeight = () => {
+        const doc = document.documentElement
+        doc.style.setProperty('--app-height', `${window.innerHeight}px`)
+    }
+    window.addEventListener('resize', appHeight)
+    appHeight()
+</script>
