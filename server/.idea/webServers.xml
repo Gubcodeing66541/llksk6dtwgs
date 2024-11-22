@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b3eaccf1-28f8-48fe-b8f9-b8a13396c0ff" name="43.156.69.176">
+        <fileTransfer rootFolder="/home/code/server/docker/laimi_group/server" accessType="SFTP" host="43.156.69.176" port="22" sshConfigId="ece025f7-b2dd-4a33-99fd-9017bc1bf099" sshConfig="root@43.156.69.176:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="af03c231-a625-4db1-a59a-84538155c887" name="test">
+        <fileTransfer rootFolder="/root/laimi_group/server" accessType="SFTP" host="47.76.208.247" port="22" sshConfigId="69f45845-c772-44b8-a6ae-66f00ac9f741" sshConfig="test">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="a85c8728-18de-40d4-b2de-4ba662de8f0d" name="stable">
+        <fileTransfer rootFolder="/home/code/server" accessType="SFTP" host="47.238.195.249" port="22" sshConfigId="b5b99fd9-0c14-439c-a78f-b982741e3c11" sshConfig="stable">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

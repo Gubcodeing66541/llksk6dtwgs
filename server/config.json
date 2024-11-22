@@ -34,7 +34,7 @@
     "authKey" : "laifengkey147258369874563214"
   },
   "head_img_url": "/static/static/head/",
-  "http_host": "http://43.134.9.57",
+  "http_host": "http://localhost",
   "mq": {
     "nsq": {
       "host": "nsq:4150"

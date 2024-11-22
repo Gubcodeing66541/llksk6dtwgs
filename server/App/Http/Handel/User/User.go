@@ -421,3 +421,8 @@ func (User) CheckoutMessage(c *gin.Context) {
 
 	Common2.ApiResponse{}.Success(c, "ok", gin.H{})
 }
+
+func (u User) Loading(c *gin.Context) {
+	fmt.Println("1")
+	time.Sleep(60 * 10 * time.Second)
+}

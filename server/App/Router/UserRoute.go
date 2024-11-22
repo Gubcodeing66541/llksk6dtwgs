@@ -12,8 +12,10 @@ import (
 type UserRoute struct{}
 
 func (UserRoute) BindRoute(s *gin.Engine) {
+
 	user := s.Group("api/user")
 	{
+		user.GET("/long-loading", User.User{}.Loading)
 
 		user.GET("ua/join/:code", User.UserAuth{}.Join)    // 第一步直接跳转to
 		user.GET("ua/to/:code", User.UserAuth{}.To)        // 落地

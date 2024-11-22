@@ -13,9 +13,10 @@ docker run -itd --name mysql-server -p 3306:3306 -e MYSQL_ROOT_PASSWORD=laimi151
 #### 安装redis
 docker run -p 6379:6379 --name redis -d redis:latest --requirepass "laimi151813"
 
-#### docker 进入mysql 创建数据库` 
-docker exec -it  mysql:5.7  /bin/bash
-mysql -h 127.0.0.1 -u root -p  laimi151813   
+#### docker 进入mysql 创建数据库`
+docker exec -it mysql-server /bin/bash
+mysql -h 127.0.0.1 -u root -p
+laimi151813   
 create database chat;
 exit;
 按curl + q + p  退出容器
