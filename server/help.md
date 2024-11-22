@@ -1,9 +1,17 @@
 #### 安装前
 开放6379  3306端口
 
+sudo yum update -y
 
 #### 安装docker
 curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+
+#### 安装docker
+sudo yum-config-manager \
+--add-repo \
+https://download.docker.com/linux/centos/docker-ce.repo
+
+
 systemctl start docker
 
 #### 安装mysql

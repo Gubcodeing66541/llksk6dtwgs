@@ -1,53 +1,54 @@
 <!doctype html>
-<html lang="">
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
+    <meta name="theme-color" content="#ededed">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ededed">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/fu/vite.svg" />
     <meta name="viewport"
-          content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,user-scalable=no,minimum-scale=1"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="fullscreen" content="yes">
-    <meta name="fullscreen" content="yes">
-    <meta name="apple-touch-fullscreen" content="yes">
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no,user-scalable=no, viewport-fit=cover">
+
     <title>在线客服</title>
-    <script defer="defer" src="/fu/js/chunk-vendors.52ff4d95.js"></script>
-    <script defer="defer" src="/fu/js/app.9ef17ba7.js"></script>
-    <link href="/fu/css/app.15e237d6.css" rel="stylesheet">
+  <script type="module" crossorigin src="/fu/assets/index-BHj2NQrx.js"></script>
+  <link rel="stylesheet" crossorigin href="/fu/assets/index-r7yCUOtG.css">
 </head>
+
 <body>
-<noscript><strong>We're sorry but my-vue-project doesn't work properly without JavaScript enabled. Please enable it to
-    continue.</strong></noscript>
-<div id="app"></div>
+    <div id="app"></div>
 </body>
-</html>
+
 <script>const convertStyle = () => {
-    document.body.style.setProperty('height', `${window.innerHeight}px`);
-    document.getElementById("app").style.setProperty('height', `${window.innerHeight}px`);
-}
-
-window.addEventListener("resize", convertStyle);
-window.addEventListener("DOMContentLoaded", convertStyle);
-
-try {
-
-    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-        // 通过下面这个API隐藏底部导航栏
-        WeixinJSBridge.call('hideToolbar');
-    });
-
-    if (typeof wx !== 'undefined') {
-        wx.ready(function () {
-            wx.hideOptionMenu();
-        });
-
-        wx.ready(function () {
-            wx.hideMenuItems({
-                menuList: [
-                    'menuItem:share:appMessage',
-                    'menuItem:share:timeline',
-                ]
-            });
-        });
+        document.body.style.setProperty('height', `${window.innerHeight}px`);
+        document.getElementById("app").style.setProperty('height', `${window.innerHeight}px`);
     }
-} catch (e) {
-    console.log('wx 未定义');
-}</script>
+
+    window.addEventListener("resize", convertStyle);
+    window.addEventListener("DOMContentLoaded", convertStyle);
+
+    try {
+
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+            // 通过下面这个API隐藏底部导航栏
+            WeixinJSBridge.call('hideToolbar');
+        });
+
+        if (typeof wx !== 'undefined') {
+            wx.ready(function () {
+                wx.hideOptionMenu();
+            });
+
+            wx.ready(function () {
+                wx.hideMenuItems({
+                    menuList: [
+                        'menuItem:share:appMessage',
+                        'menuItem:share:timeline',
+                    ]
+                });
+            });
+        }
+    } catch (e) {
+        console.log('wx 未定义');
+    }</script>
+
+</html>

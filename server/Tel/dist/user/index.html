@@ -1,70 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="http://www.xio.ink/user/favicon.ico">
-    <!-- <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" /> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0, minimum-scale=1.0,  minimum-scale=1.0"/> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0, user-scalable=no, minimum-scale=1.0"/>
+    <meta name="theme-color" content="#ededed">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ededed">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/fu/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no,user-scalable=no, viewport-fit=cover">
 
-
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="fullscreen" content="yes">
-    <meta name="fullscreen" content="yes">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <title>在线客服</title>
-    <script type="module" crossorigin src="http://www.xio.ink/user/assets/index-a2533353.js"></script>
-    <link rel="stylesheet" href="http://www.xio.ink/user/assets/index-94e0355c.css">
+    <title>Vite + Vue</title>
+    <script type="module" crossorigin src="/fu/assets/index-BkwHJdOf.js"></script>
+    <link rel="stylesheet" crossorigin href="/fu/assets/index-Do6gX1Ij.css">
   </head>
   <body>
     <div id="app"></div>
-    
   </body>
-</html>
 
-<script>
-  const convertStyle = () => {
+  <script>const convertStyle = () => {
     document.body.style.setProperty('height', `${window.innerHeight}px`);
     document.getElementById("app").style.setProperty('height', `${window.innerHeight}px`);
-  }
+}
 
-  window.addEventListener("resize", convertStyle);
-  window.addEventListener("DOMContentLoaded", convertStyle);
-   
-  try {
-      //  document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-      //     // 通过下面这个API隐藏右上角按钮
-      //     WeixinJSBridge.call('hideOptionMenu');
-      // });
+window.addEventListener("resize", convertStyle);
+window.addEventListener("DOMContentLoaded", convertStyle);
 
-      // WeixinJSBridge.call('hideToolbar'); //隐藏右下面工具栏
-      // WeixinJSBridge.call('showToolbar'); //显示右下面工具栏
-      // WeixinJSBridge.call('hideOptionMenu'); //隐藏右上角三个点按钮。
-      // WeixinJSBridge.call('showOptionMenu'); //显示右上角三个点按钮。
+try {
 
-      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-          // 通过下面这个API隐藏底部导航栏
-          WeixinJSBridge.call('hideToolbar');
-      });
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        // 通过下面这个API隐藏底部导航栏
+        WeixinJSBridge.call('hideToolbar');
+    });
 
-      if (typeof  wx !== 'undefined'){
-          wx.ready(function(){
-              wx.hideOptionMenu();
-          });
+    if (typeof wx !== 'undefined') {
+        wx.ready(function () {
+            wx.hideOptionMenu();
+        });
 
-          wx.ready(function () {
-              wx.hideMenuItems({
-                  menuList: [
-                      'menuItem:share:appMessage',
-                      'menuItem:share:timeline',
-                  ]
-              });
-          });
-      }
-  } catch(e) {
-      console.log('wx 未定义');
-  }
-</script>
+        wx.ready(function () {
+            wx.hideMenuItems({
+                menuList: [
+                    'menuItem:share:appMessage',
+                    'menuItem:share:timeline',
+                ]
+            });
+        });
+    }
+} catch (e) {
+    console.log('wx 未定义');
+}</script>
+</html>

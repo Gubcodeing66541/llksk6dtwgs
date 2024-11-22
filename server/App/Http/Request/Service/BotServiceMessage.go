@@ -4,7 +4,7 @@ import "server/App/Http/Request"
 
 type CreateBotServiceMessage struct {
 	ServiceId int    `json:"service_id" uri:"service_id" form:"service_id" `
-	MsgInfo   string `json:"msg_info" uri:"msg_info" form:"msg_info" binding:"required" `
+	MsgInfo   string `json:"msg_info" uri:"msg_info" form:"msg_info"  `
 	MsgType   string `json:"msg_type" uri:"msg_type" form:"msg_type" binding:"required" `
 	Question  string `json:"question"`
 	Title     string `json:"title"`
@@ -18,7 +18,7 @@ type ListBotServiceMessage struct {
 
 type UpdateBotServiceMessage struct {
 	Id        int    `json:"id" uri:"id" form:"id" binding:"required" `
-	MsgInfo   string `json:"msg_info" uri:"msg_info" form:"msg_info" binding:"required" `
+	MsgInfo   string `json:"msg_info" uri:"msg_info" form:"msg_info"  `
 	MsgType   string `json:"msg_type" uri:"msg_type" form:"msg_type" binding:"required" `
 	ServiceId int    `json:"service_id" uri:"service_id" form:"service_id"  `
 	Name      string `json:"name" uri:"name" form:"name"  `
