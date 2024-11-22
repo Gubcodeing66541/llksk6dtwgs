@@ -44,7 +44,10 @@ func (UserRoute) BindRoute(s *gin.Engine) {
 		user.POST("token", User.User{}.Token)
 		user.POST("info", UserMiddleWare(), User.User{}.Info)
 		user.POST("send", UserMiddleWare(), User.User{}.Send)
+		user.POST("send/bot", UserMiddleWare(), User.User{}.SendBot)
+
 		user.POST("message/list", UserMiddleWare(), User.User{}.List)
+		user.POST("message/bot", UserMiddleWare(), User.User{}.BotMessage)
 
 		user.POST("group/detail", UserMiddleWare(), User.Group{}.Detail)
 

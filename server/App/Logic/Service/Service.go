@@ -31,6 +31,7 @@ func (Service) Create(agentId int64, Member string, Type string, Day int) Servic
 		FirstLoginStatus: 0,
 		UpdateTime:       time.Now(),
 		UserDefault:      "default",
+		ConsumeDay:       Day,
 	}
 	Base.MysqlConn.Create(&service)
 	service.Code = Common.Tools{}.CreateActiveCode(service.ServiceId)
@@ -64,12 +65,14 @@ func (Service) Renew(Member string, Day int, Price int) (Service2.Service, error
 		return service, errors.New("账号不存在")
 	}
 
+	//不会马上消费，而是登录后消费
 	if service.TimeOut.After(time.Now()) {
 		service.TimeOut = service.TimeOut.AddDate(0, 0, Day)
 	} else {
 		service.TimeOut = time.Now().AddDate(0, 0, Day)
 	}
 	service.UpdateTime = time.Now()
+	service.ConsumeDay = service.ConsumeDay + Day //待消费
 	Base.MysqlConn.Save(&service)
 	Base.MysqlConn.Create(&Common2.Order{ServiceId: service.ServiceId, Day: Day, Price: Price, Money: Price * Day, CreateTime: time.Now(), Type: "renew"})
 	return service, nil

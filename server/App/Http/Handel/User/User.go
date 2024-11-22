@@ -22,8 +22,7 @@ import (
 
 type User struct{}
 
-// 用户token字符串换取真实token
-
+// Token 用户token字符串换取真实token
 func (User) Token(c *gin.Context) {
 	var req User2.Token
 	err := c.ShouldBind(&req)
@@ -34,11 +33,10 @@ func (User) Token(c *gin.Context) {
 	}
 
 	token := Common2.RedisTools{}.GetString(req.Token)
-
 	Common2.ApiResponse{}.Success(c, "解析成功", gin.H{"token": token})
 }
 
-// 获取客服基本信息
+// Info 获取客服基本信息
 func (User) Info(c *gin.Context) {
 	serviceId := Common2.Tools{}.GetServiceId(c)
 
@@ -92,7 +90,32 @@ func (User) Info(c *gin.Context) {
 	})
 }
 
-// 消息列表
+// BotMessage 获取智能消息
+func (User) BotMessage(c *gin.Context) {
+	serviceId := Common2.Tools{}.GetServiceId(c)
+
+	// 获取客服信息
+	service, err := Service.Service{}.IdGet(serviceId)
+	if err != nil {
+		Common2.ApiResponse{}.Error(c, "无法获取到客服信息", gin.H{})
+		return
+	}
+
+	room := Service.ServiceRoom{}.GetByUserId(serviceId, Common2.Tools{}.GetRoleId(c))
+	if room.IsBlack == 1 {
+		Common2.ApiResponse{}.Ban(c, "无法获取到客服信息", gin.H{})
+		return
+	}
+
+	var botMessage []Service3.BotServiceMessage
+	Base.MysqlConn.Model(Service3.BotServiceMessage{}).Find(&botMessage, "service_id = ?", service.ServiceId)
+
+	Common2.ApiResponse{}.Success(c, "解析成功", gin.H{
+		"list": botMessage,
+	})
+}
+
+// List 消息列表
 func (User) List(c *gin.Context) {
 	var pageReq Request.PageLimit
 	err := c.ShouldBind(&pageReq)
@@ -120,12 +143,17 @@ func (User) List(c *gin.Context) {
 		tel.Offset(pageReq.GetOffset()).Limit(pageReq.GetLimit()).Scan(&list)
 	}
 
+	// 把所有未读变已读
+	Base.MysqlConn.Model(&Message2.Message{}).
+		Where(" service_id=? and user_id =?", Common2.Tools{}.GetServiceId(c), roleId).
+		Update("is_read", 1)
+
 	res := gin.H{"count": allCount, "page": int64(allPage), "current_page": pageReq.Page, "list": list}
 	fmt.Println("res", res, "pageReq", pageReq)
 	Common2.ApiResponse{}.Success(c, "获取成功", res)
 }
 
-// 发送消息给客服
+// Send 发送消息给客服
 func (User) Send(c *gin.Context) {
 	var req Service2.UserSendMessage
 	err := c.ShouldBind(&req)
@@ -191,6 +219,76 @@ func (User) Send(c *gin.Context) {
 	Common2.ApiResponse{}.Success(c, "消息发送成功.", gin.H{})
 }
 
+// SendBot 客服发送智能消息
+func (User) SendBot(c *gin.Context) {
+	var req Service2.UserSendMessage
+	err := c.ShouldBind(&req)
+	if err != nil || req.Content == "" {
+		Common2.ApiResponse{}.Error(c, "请输入需要发送的消息.", gin.H{"erq": req})
+		return
+	}
+
+	// 获取ID
+	UserId := Common2.Tools{}.GetRoleId(c)
+	ServiceId := Common2.Tools{}.GetServiceId(c)
+
+	// 在线
+	serviceIsOnline := Base.WebsocketHub.UserIdIsOnline(fmt.Sprintf("%s:%d", "service", ServiceId))
+	model := &Message2.Message{
+		From: ServiceId, To: UserId, Type: req.Type, Content: req.Content, ServiceId: ServiceId,
+		SendRole: "service", CreateTime: time.Now(), IsRead: serviceIsOnline, UserId: UserId, Time: time.Now().Unix()}
+
+	if req.Type != "time" {
+		model.IsRead = 1
+	}
+
+	Base.MysqlConn.Create(&model)
+
+	if model.Id == 0 {
+		Common2.ApiResponse{}.Error(c, "消息发送失败", gin.H{})
+		return
+	}
+
+	sendMsg := Response.SocketMessage{
+		Id:   model.Id,
+		From: ServiceId, To: UserId, Type: req.Type, Content: req.Content, ServiceId: ServiceId, Time: time.Now().Unix(),
+		SendRole: "service", CreateTime: time.Now().Format("2006-01-02 15:04:05"), IsRead: serviceIsOnline, UserId: UserId,
+	}
+
+	if req.Type != "time" {
+		LateMsg, LateType := req.Content, req.Type
+		update := gin.H{
+			"late_role": "service", "late_msg": LateMsg, "update_time": time.Now(), "late_id": model.Id, "is_delete": 0,
+			"service_no_read": 0, "user_no_read": 0, "late_type": LateType, "LateUserReadId": model.Id,
+		}
+		bindUserId := Base.WebsocketHub.GetBindUser(Common2.Tools{}.GetServiceWebSocketId(ServiceId))
+		if serviceIsOnline == 0 || bindUserId != UserId {
+			update["service_no_read"] = gorm.Expr("service_no_read + ?", 1)
+		}
+		err = Base.MysqlConn.Table("service_rooms").Where("service_id = ? and user_id = ?", ServiceId, UserId).Updates(update).Error
+		fmt.Println("err", err)
+		if err != nil {
+			fmt.Println("update error", err.Error())
+		}
+	}
+
+	// 给客服和用户推送
+	Common2.ApiResponse{}.SendMsgToService(ServiceId, "message", sendMsg)
+	Common2.ApiResponse{}.SendMsgToUser(UserId, "message", sendMsg)
+
+	// 处理离线消息
+	Logic.User{}.HandelLeaveMessage(ServiceId, UserId)
+
+	// 更新已读
+	go func(ServiceId int, UserId int) {
+		Base.MysqlConn.Model(&Message2.Message{}).Where("service_id = ? and user_id = ?", ServiceId, UserId).Updates(gin.H{"is_read": 1})
+	}(ServiceId, UserId)
+
+	// ok信息
+	Common2.ApiResponse{}.Success(c, "消息发送成功.", gin.H{})
+}
+
+// CreateLive
 func (User) CreateLive(c *gin.Context) {
 	selviceId := Common2.Tools{}.GetServiceId(c)
 	userId := Common2.Tools{}.GetRoleId(c)

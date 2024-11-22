@@ -14,6 +14,10 @@ func (ServiceRoute) BindRoute(s *gin.Engine) {
 
 	s.GET("api/service/count/:code", Service.Count{}.Count)
 
+	s.GET("api/service/get/count/:code", Service.Count{}.CountWeek)
+	s.GET("api/service/get/count/month/:code", Service.Count{}.CountMonth)
+	s.GET("api/service/get/count/day/:code", Service.Count{}.CountDay)
+
 	service := s.Group("api/service", ServiceMiddleWare())
 	{
 		setting := service.Group("setting", ServiceMiddleWare())
@@ -23,6 +27,8 @@ func (ServiceRoute) BindRoute(s *gin.Engine) {
 
 		service.POST("info", Service.Service{}.Info)
 		service.POST("update", Service.Service{}.Update)
+
+		service.POST("check_domain", Service.Service{}.CheckDomain)
 
 		service.POST("create_live_token/:uid", Service.Service{}.CreateLive)
 
@@ -70,6 +76,17 @@ func (ServiceRoute) BindRoute(s *gin.Engine) {
 		serviceMessage.POST("list", Service.ServiceMessage{}.List)
 		serviceMessage.POST("get", Service.ServiceMessage{}.GetById)
 		serviceMessage.POST("swap", Service.ServiceMessage{}.Swap)
+	}
+
+	// 智能回复等相关
+	botServiceMessage := s.Group("api/service_message/bot/", ServiceMiddleWare())
+	{
+		botServiceMessage.POST("create", Service.BotServiceMessage{}.Create)
+		botServiceMessage.POST("delete", Service.BotServiceMessage{}.Delete)
+		botServiceMessage.POST("update", Service.BotServiceMessage{}.Update)
+		botServiceMessage.POST("list", Service.BotServiceMessage{}.List)
+		botServiceMessage.POST("get", Service.BotServiceMessage{}.GetById)
+		botServiceMessage.POST("swap", Service.BotServiceMessage{}.Swap)
 	}
 }
 

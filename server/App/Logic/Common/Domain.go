@@ -66,6 +66,7 @@ func (Domain) Bind(serviceId int) error {
 	if domain.BindServiceId != 0 {
 		return errors.New("已绑定域名")
 	}
+
 	Base.MysqlConn.Find(&domain, "status = ? and  type = ?  and bind_service_id = 0", "enable", "public")
 	if domain.Id == 0 {
 		return errors.New("无可用分配域名")
@@ -161,7 +162,8 @@ func (Domain) EnableDisable(id int, status string) {
 	if domain.BindServiceId > 0 && status == "un_enable" {
 		bindServiceId := domain.BindServiceId
 
-		Base.MysqlConn.Model(&domain).Where("id = ?", domain.Id).Updates(&Common.Domain{Status: "un_enable", BindServiceId: 0})
+		Base.MysqlConn.Model(&domain).Where("id = ?", domain.Id).
+			Updates(map[string]interface{}{"status": "un_enable", "bind_service_id": 0})
 
 		var domainStruct Domain
 		domainStruct.Bind(bindServiceId)

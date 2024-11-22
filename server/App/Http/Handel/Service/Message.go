@@ -78,7 +78,11 @@ func (Message) List(c *gin.Context) {
 
 	roleId := Common.Tools{}.GetRoleId(c)
 	var message []Response.Message
-	tel := Base.MysqlConn.Model(&Message2.Message{}).Where("service_id = ? and user_id = ? and is_del = 0", roleId, req.UserId)
+	tel := Base.MysqlConn.Model(&Message2.Message{}).Where("service_id = ? and user_id = ? and is_del = 0 and id < ?", roleId, req.UserId, req.Id)
+
+	if req.Id > 0 {
+		tel = tel.Where("id < ?", req.Id) // 查找小于指定 id 的记录
+	}
 
 	// 计算分页和总数
 	var allCount int

@@ -67,7 +67,6 @@ func (System) Live(c *gin.Context) {
 		c.String(http.StatusOK, "视频通话已过期，请重新发起新的连线通话~")
 		return
 	}
-
 	link := fmt.Sprintf("%s/live/index.html", Common2.Domain{}.GetLive())
 	c.HTML(http.StatusOK, "localstorage.html", gin.H{
 		"key":  "live_token",

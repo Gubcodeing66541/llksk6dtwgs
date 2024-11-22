@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"server/App/Common"
 	Service3 "server/App/Http/Request/Service"
-	Common2 "server/App/Logic/Common"
 	Service2 "server/App/Model/Service"
 	"server/Base"
 	"time"
@@ -32,13 +31,18 @@ func (Auth) Login(c *gin.Context) {
 		return
 	}
 
+	// 到期时间
 	if ServiceModel.FirstLoginStatus == 0 {
-		// 结束时间-创建时间
-		var newTimeOut = ServiceModel.TimeOut.UnixNano() - ServiceModel.CreateTime.UnixNano()
-		ServiceModel.TimeOut = time.Now().Add(time.Duration(newTimeOut))
-		ServiceModel.FirstLoginStatus = 1
+		ServiceModel.TimeOut = time.Now().Add(time.Duration(ServiceModel.ConsumeDay) * 24 * time.Hour) // 首次登录直接天数 *24 小时重置
+		ServiceModel.ConsumeDay = 0                                                                    // 重置消费天数   新开号 消费天数为 开号的天数
+		ServiceModel.FirstLoginStatus = 1                                                              // 修改为非首次登录
 		Base.MysqlConn.Where("service_id = ?", ServiceModel.ServiceId).Save(&ServiceModel)
-		Common2.Domain{}.Bind(ServiceModel.ServiceId)
+	}
+
+	// 账号到期
+	if ServiceModel.TimeOut.Before(time.Now()) {
+		Common.ApiResponse{}.Error(c, "账号已到期", gin.H{})
+		return
 	}
 
 	token := Common.Tools{}.EncodeToken(ServiceModel.ServiceId, "service", ServiceModel.ServiceId, 0, "")

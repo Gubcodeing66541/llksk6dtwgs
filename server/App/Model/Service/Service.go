@@ -19,6 +19,7 @@ type Service struct {
 	CreateTime       time.Time `json:"create_time"`
 	UpdateTime       time.Time `json:"update_time"`
 	FirstLoginStatus int       `json:"first_login_status"` //是否第一次登录 默认0 1为登录激活
+	ConsumeDay       int       `json:"consume_day"`        //需要消费的天数
 }
 
 type ServiceMessageReply struct {

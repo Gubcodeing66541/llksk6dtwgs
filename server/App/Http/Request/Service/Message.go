@@ -19,6 +19,7 @@ type MsgList struct {
 	UserId    int `json:"user_id" uri:"user_id" xml:"user_id" form:"user_id"`
 	Page      int `json:"page" uri:"page" xml:"page" form:"page"`
 	Offset    int `json:"offset" uri:"offset" xml:"offset" form:"offset"`
+	Id        int `json:"id" uri:"id" xml:"id" form:"id"`
 }
 
 type ServiceSendMessage struct {

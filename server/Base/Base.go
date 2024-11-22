@@ -14,6 +14,7 @@ import (
 	"server/App/Model/Agent"
 	"server/App/Model/Common"
 	GroupModel "server/App/Model/Group"
+	"server/App/Model/Log"
 	Service2 "server/App/Model/Service"
 	"server/App/Model/User"
 	"server/Base/Config"
@@ -103,11 +104,11 @@ func (b Base) initMysql() {
 
 	auto := MysqlConn.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci")
 	auto.AutoMigrate(&User.User{}, &User.UserLoginLog{}, &User.UserAuthMap{})
-	auto.AutoMigrate(&Service2.Service{}, &Service2.ServiceBlack{}, &Service2.ServiceRoom{}, &Service2.ServiceMessage{}, &Service2.ServiceRoomDetail{})
+	auto.AutoMigrate(&Service2.Service{}, &Service2.ServiceBlack{}, &Service2.ServiceRoom{}, &Service2.ServiceMessage{}, &Service2.ServiceRoomDetail{}, &Service2.BotServiceMessage{})
 	auto.AutoMigrate(&Common.Domain{}, &Common.Message{}, &Common.Order{}, &Common.Rename{})
 	auto.AutoMigrate(&GroupModel.Group{}, &GroupModel.GroupUser{}, &GroupModel.GroupMessage{})
 	auto.AutoMigrate(&Common.PaymentTicket{}, &Common.Ip{})
-	auto.AutoMigrate(&Agent.Agent{}, &Agent.AgentAccountLog{})
+	auto.AutoMigrate(&Agent.Agent{}, &Agent.AgentAccountLog{}, &Log.CheckDomainLog{})
 
 }
 

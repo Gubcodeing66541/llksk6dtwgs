@@ -14,7 +14,7 @@ type ServiceMessage struct {
 // 创建消息
 func (ServiceMessage) Create(serviceId int, req Service3.CreateServiceMessage) interface{} {
 	return Base.MysqlConn.Create(&Service2.ServiceMessage{
-		ServiceId: serviceId, Status: "un_enable",
+		ServiceId: serviceId, Status: "enable",
 		MsgInfo: req.MsgInfo, MsgType: req.MsgType,
 		Type: req.Type, CreateTime: time.Now(), Name: req.Name})
 }

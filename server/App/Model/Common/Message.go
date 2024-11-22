@@ -11,7 +11,7 @@ type Message struct {
 	SendRole   string    `json:"send_role"` // user activate
 	CreateTime time.Time `json:"create_time"`
 	Diversion  string    `json:"diversion"` // 1 分流码
-	IsRead     int       `json:"is_read"`
+	IsRead     int       `json:"is_read"`   //1 已读  0未读
 	UserId     int       `json:"user_id" gorm:"index:user_id_idx"`
 	ServiceId  int       `json:"service_id" gorm:"index:service_id_idx"`
 	IsDel      int       `json:"is_del"` //1 del
