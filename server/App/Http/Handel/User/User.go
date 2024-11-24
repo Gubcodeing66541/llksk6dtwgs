@@ -108,7 +108,7 @@ func (User) BotMessage(c *gin.Context) {
 	}
 
 	var botMessage []Service3.BotServiceMessage
-	Base.MysqlConn.Model(Service3.BotServiceMessage{}).Find(&botMessage, "service_id = ?", service.ServiceId)
+	Base.MysqlConn.Model(Service3.BotServiceMessage{}).Find(&botMessage, "service_id = ? and status = 'enable'", service.ServiceId)
 
 	Common2.ApiResponse{}.Success(c, "解析成功", gin.H{
 		"list": botMessage,

@@ -77,6 +77,8 @@ func (ServiceRoute) BindRoute(s *gin.Engine) {
 		serviceMessage.POST("list", Service.ServiceMessage{}.List)
 		serviceMessage.POST("get", Service.ServiceMessage{}.GetById)
 		serviceMessage.POST("swap", Service.ServiceMessage{}.Swap)
+		serviceMessage.POST("set_enable", Service.ServiceMessage{}.SetEnable)
+
 	}
 
 	// 智能回复等相关
@@ -88,6 +90,7 @@ func (ServiceRoute) BindRoute(s *gin.Engine) {
 		botServiceMessage.POST("list", Service.BotServiceMessage{}.List)
 		botServiceMessage.POST("get", Service.BotServiceMessage{}.GetById)
 		botServiceMessage.POST("swap", Service.BotServiceMessage{}.Swap)
+		botServiceMessage.POST("set_enable", Service.BotServiceMessage{}.SetEnable)
 	}
 
 	// 智能回复等相关

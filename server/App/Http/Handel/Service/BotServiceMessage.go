@@ -2,6 +2,7 @@ package Service
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"math"
 	Common2 "server/App/Common"
 	Service3 "server/App/Http/Request/Service"
@@ -103,4 +104,42 @@ func (BotServiceMessage) Swap(c *gin.Context) {
 	Base.MysqlConn.Save(&from)
 	Base.MysqlConn.Save(&to)
 	Common2.ApiResponse{}.Success(c, "修改成功", gin.H{"from": from, "to": to})
+}
+
+func (m BotServiceMessage) SetEnable(c *gin.Context) {
+	var req Service3.BotServiceMessageId
+	err := c.ShouldBind(&req)
+	if err != nil {
+		Common2.ApiResponse{}.Error(c, "参数错误", gin.H{})
+		return
+	}
+	// SetEnable 设置启用
+
+	serviceID := Common2.Tools{}.GetServiceId(c)
+	// 查询对应的 ServiceMessage
+	var serviceMessage Service2.BotServiceMessage
+	if err := Base.MysqlConn.Where("service_id = ? and id = ?", serviceID, req.Id).First(&serviceMessage).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			Common2.ApiResponse{}.Error(c, "未找到对应的信息", nil)
+		} else {
+			Common2.ApiResponse{}.Error(c, "数据库查询错误", gin.H{})
+		}
+		return
+	}
+
+	// 切换 Status 值
+	newStatus := "enable"
+	if serviceMessage.Status == "enable" {
+		newStatus = "un_enable"
+	}
+
+	// 更新 Status 值到数据库
+	if err := Base.MysqlConn.Model(&serviceMessage).Update("status", newStatus).Error; err != nil {
+		Common2.ApiResponse{}.Error(c, "状态更新失败", gin.H{})
+		return
+	}
+
+	// 返回成功响应
+	Common2.ApiResponse{}.Success(c, "状态切换成功", gin.H{})
+
 }

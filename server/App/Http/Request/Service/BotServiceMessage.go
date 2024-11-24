@@ -41,3 +41,7 @@ type SwapBotServiceMessage struct {
 	From int `json:"from" uri:"from" form:"from" binding:"required" `
 	To   int `json:"to" uri:"to" form:"to" binding:"required" `
 }
+
+type BotServiceMessageId struct {
+	Id int `json:"id"`
+}
