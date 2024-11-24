@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"server/App/Common"
 	"server/App/Http/Handel/Service"
+	"server/App/Http/Handel/Setting"
 	"server/App/Http/Handel/User"
 )
 
@@ -87,6 +88,14 @@ func (ServiceRoute) BindRoute(s *gin.Engine) {
 		botServiceMessage.POST("list", Service.BotServiceMessage{}.List)
 		botServiceMessage.POST("get", Service.BotServiceMessage{}.GetById)
 		botServiceMessage.POST("swap", Service.BotServiceMessage{}.Swap)
+	}
+
+	// 智能回复等相关
+	setting := s.Group("api/setting/", ServiceMiddleWare())
+	{
+		setting.POST("update", Setting.Setting{}.Update)
+		setting.POST("get", Setting.Setting{}.Get)
+
 	}
 }
 
