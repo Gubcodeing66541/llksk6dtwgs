@@ -37,7 +37,10 @@ func (ServiceRoom) Get(user User2.User, service Service2.Service, Ip string, Dri
 		serverRoom = Service2.ServiceRoom{
 			ServiceId: service.ServiceId, LateUserReadId: lateId, UserId: user.UserId, LateType: LateType,
 			LateMsg: LateMsg, CreateTime: now, UpdateTime: now, Times: time.Now().Unix(), LateId: lateId, Diversion: service.Diversion}
-		Base.MysqlConn.Create(&serverRoom)
+		err := Base.MysqlConn.Create(&serverRoom).Error
+		if err != nil {
+			fmt.Println(err)
+		}
 		Base.MysqlConn.Create(&Service2.ServiceRoomDetail{
 			ServiceId: service.ServiceId, UserId: user.UserId, IP: Ip, CreateTime: now, Drive: Drive, DriveInfo: DriveInfo})
 	} else {

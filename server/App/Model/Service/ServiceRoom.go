@@ -11,7 +11,7 @@ type ServiceRoom struct {
 	LateId         int
 	Type           string `json:"type" gorm:"comment:'user私聊 group群聊天'"`
 	LateType       string
-	LateMsg        string `json:"late_msg"`
+	LateMsg        string `json:"late_msg" gorm:"type:TEXT"`
 	LateRole       string
 	LateIp         string `json:"late_ip"`
 	LateUserReadId int

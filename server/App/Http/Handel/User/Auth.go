@@ -8,6 +8,7 @@ import (
 	Message2 "server/App/Model/Common"
 	"server/App/Model/Service"
 	"server/Base"
+	"sync"
 	"time"
 )
 
@@ -44,23 +45,20 @@ func (Auth) Action(c *gin.Context) {
 		return
 	}
 
-	// 上线更新update时间和未读
-	update := gin.H{"update_time": time.Now(), "user_no_read": 0, "late_user_read_id": 0, "is_delete": 0, "late_ip": c.ClientIP()}
-	Base.MysqlConn.Model(&Service.ServiceRoom{}).
-		Where("user_id = ? and service_id = ? ", userAuthToken.RoleId, userAuthToken.ServiceId).
-		Updates(update)
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done() // 确保 Goroutine 完成后减少计数
+		Base.MysqlConn.Model(&Service3.ServiceRoomDetail{}).Where("service_id = ? and user_id = ?",
+			userAuthToken.ServiceId, userAuthToken.RoleId).Updates(
+			gin.H{"ip": c.ClientIP()})
 
-	go Base.MysqlConn.Model(&Service3.ServiceRoomDetail{}).Where("service_id = ? and user_id = ?",
-		userAuthToken.ServiceId, userAuthToken.RoleId).Updates(
-		gin.H{"ip": c.ClientIP()})
-
-	//Base.MysqlConn.Create(&User.UserLoginLog{
-	//	UserId:     userAuthToken.RoleId,
-	//	ServiceId:  userAuthToken.ServiceId,
-	//	Ip:         c.ClientIP(),
-	//	Addr:       "",
-	//	CreateTime: time.Now(),
-	//})
+		// 上线更新update时间和未读
+		update := gin.H{"update_time": time.Now(), "user_no_read": 0, "late_user_read_id": 0, "is_delete": 0, "late_ip": c.ClientIP()}
+		Base.MysqlConn.Model(&Service.ServiceRoom{}).
+			Where("user_id = ? and service_id = ? ", userAuthToken.RoleId, userAuthToken.ServiceId).
+			Updates(update)
+	}()
 
 	// 所有消息已读
 	Base.MysqlConn.Model(Message2.Message{}).Where("service_id = ? and user_id = ? and is_read = 0",
@@ -68,6 +66,8 @@ func (Auth) Action(c *gin.Context) {
 		gin.H{"is_read": 1})
 
 	c.HTML(http.StatusOK, "index.html", gin.H{"token": token})
+
+	wg.Wait()
 	return
 }
 

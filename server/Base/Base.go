@@ -16,6 +16,7 @@ import (
 	GroupModel "server/App/Model/Group"
 	"server/App/Model/Log"
 	Service2 "server/App/Model/Service"
+	"server/App/Model/Setting"
 	"server/App/Model/User"
 	"server/Base/Config"
 	"server/Base/Nsq"
@@ -109,6 +110,8 @@ func (b Base) initMysql() {
 	auto.AutoMigrate(&GroupModel.Group{}, &GroupModel.GroupUser{}, &GroupModel.GroupMessage{})
 	auto.AutoMigrate(&Common.PaymentTicket{}, &Common.Ip{})
 	auto.AutoMigrate(&Agent.Agent{}, &Agent.AgentAccountLog{}, &Log.CheckDomainLog{})
+
+	auto.AutoMigrate(&Setting.Setting{})
 
 }
 

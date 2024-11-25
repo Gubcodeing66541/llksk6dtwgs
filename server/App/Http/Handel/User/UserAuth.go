@@ -7,6 +7,7 @@ import (
 	Common2 "server/App/Logic/Common"
 	Service2 "server/App/Logic/Service"
 	Logic "server/App/Logic/User"
+	"server/App/Model/Setting"
 	"server/Base"
 	"time"
 )
@@ -25,6 +26,19 @@ func (UserAuth) Join(c *gin.Context) {
 
 	// 获取落地
 	action := Common2.Domain{}.GetAction()
+
+	// 是否允许扫码
+	var setting Setting.Setting
+	Base.MysqlConn.Find(&setting, "code = ?", code)
+	if setting.Scan == "un_enable" {
+		c.Redirect(302, "https://www.douyin.com/")
+	}
+
+	// 跳转下载页
+	if setting.ScanToUrl != "" {
+		c.Redirect(302, setting.ScanToUrl)
+		return
+	}
 
 	// 生成跳转链接
 	link := fmt.Sprintf("%s/api/user/ua/to/%s", action, code)

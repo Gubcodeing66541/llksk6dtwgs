@@ -21,6 +21,7 @@ func (ServiceRoute) BindRoute(s *gin.Engine) {
 
 	service := s.Group("api/service", ServiceMiddleWare())
 	{
+
 		setting := service.Group("setting", ServiceMiddleWare())
 		{
 			setting.POST("bind_diversion", Service.Setting{}.BindDiversion)
@@ -96,10 +97,12 @@ func (ServiceRoute) BindRoute(s *gin.Engine) {
 	// 智能回复等相关
 	setting := s.Group("api/setting/", ServiceMiddleWare())
 	{
+		setting.POST("service_message/copy", Setting.Setting{}.CopyServiceMessage) //复制话术
+		setting.POST("service_message/save", Setting.Setting{}.SaveServiceMessage) //复制话术
 		setting.POST("update", Setting.Setting{}.Update)
 		setting.POST("get", Setting.Setting{}.Get)
-
 	}
+
 }
 
 func ServiceMiddleWare() gin.HandlerFunc {

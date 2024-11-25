@@ -8,6 +8,7 @@ import (
 	Service22 "server/App/Logic/Service"
 	"server/App/Model/Agent"
 	Service2 "server/App/Model/Service"
+	Setting2 "server/App/Model/Setting"
 	"server/Base"
 	"time"
 )
@@ -70,7 +71,24 @@ func (a *agentLogic) CreateService(agentId int64, count int64, Type string, day 
 		memberList = append(memberList, member.Member)
 		_ = Common3.Domain{}.Bind(member.ServiceId)
 		a.addLog(agent, -agent.AgentPrice*day, Agent.AgentAccountLogTypeCreateService, member.Member, day)
+
+		// 创建配置
+		Base.MysqlConn.Model(&Setting2.Setting{}).Create(&Setting2.Setting{
+			ServiceId:    member.ServiceId,
+			Scan:         "enable",
+			ScanDrive:    "default",
+			ScanFitter:   "un_enable",
+			ScanChange:   "un_enable",
+			ToUrl:        "enable",
+			Banner:       "",
+			ScanToUrl:    "",
+			ChangeQr:     "un_enable",
+			MessageSound: "enable",
+			OnlineSound:  "enable",
+			Code:         member.Code,
+		})
 	}
+
 	return memberList, nil
 }
 

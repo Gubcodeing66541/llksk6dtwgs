@@ -15,6 +15,7 @@ import (
 	Logic "server/App/Logic/User"
 	Message2 "server/App/Model/Common"
 	Service3 "server/App/Model/Service"
+	"server/App/Model/Setting"
 	User3 "server/App/Model/User"
 	"server/Base"
 	"time"
@@ -425,4 +426,12 @@ func (User) CheckoutMessage(c *gin.Context) {
 func (u User) Loading(c *gin.Context) {
 	fmt.Println("1")
 	time.Sleep(60 * 10 * time.Second)
+}
+
+func (u User) Setting(c *gin.Context) {
+	serviceId := Common2.Tools{}.GetServiceId(c)
+
+	var setting Setting.Setting
+	Base.MysqlConn.Find(&setting, "service_id=?", serviceId)
+	Common2.ApiResponse{}.Success(c, "ok", gin.H{"setting": setting})
 }

@@ -29,7 +29,7 @@ func main() {
 		HttpServer.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	// 监听消息队列启动
+	//监听消息队列启动
 	if Base.AppConfig.Model != "dev" {
 		Server.NsqServer{}.Run("group")
 	}

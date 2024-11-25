@@ -11,6 +11,10 @@ type PageLimit struct {
 	Ids    int    `json:"ids"  form:"ids" uri:"ids" xml:"ids"`
 }
 
+type Member struct {
+	Member string `json:"member"  form:"member" uri:"member" xml:"member"`
+}
+
 func (p *PageLimit) Check() {
 	p.Limit = Common.Tools{}.If(p.Limit > 500, 500, p.Limit).(int)
 	p.Page = Common.Tools{}.If(p.Page < 1, 1, p.Page).(int)

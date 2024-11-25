@@ -22,7 +22,6 @@ func (UserRoute) BindRoute(s *gin.Engine) {
 		user.POST("ua/register", User.UserAuth{}.Register) // 注册
 
 		// 全新的私聊入口
-
 		user.GET("auth/action/:code/:uuid", User.LocalAuth{}.Action) // 第二步
 		user.GET("auth/show/:code/:uuid", User.LocalAuth{}.Show)     // 第三步
 		user.GET("action/:token", User.Auth{}.Action)                // 第四步 实际落地，最新的确认
@@ -65,6 +64,8 @@ func (UserRoute) BindRoute(s *gin.Engine) {
 		user.GET("user/is_bind", UserMiddleWare(), User.User{}.IsBind)
 
 		user.POST("checkout_message", UserMiddleWare(), User.User{}.CheckoutMessage)
+
+		user.POST("setting", UserMiddleWare(), User.User{}.Setting)
 
 	}
 }
