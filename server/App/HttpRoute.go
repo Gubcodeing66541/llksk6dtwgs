@@ -16,7 +16,7 @@ var rateLimit = rate.NewLimiter(600, 800)
 func (HttpRoute) BindRoute(s *gin.Engine) {
 	s.Use(Cors())
 
-	s.Use(LimitMiddleWare())
+	//s.Use(LimitMiddleWare())
 
 	s.NoRoute(func(c *gin.Context) {
 		// 实现内部重定向

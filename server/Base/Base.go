@@ -101,7 +101,7 @@ func (b Base) initMysql() {
 
 	MysqlConn.DB().SetConnMaxLifetime(20 * time.Second)
 	MysqlConn.DB().SetMaxOpenConns(100)
-	MysqlConn.LogMode(AppConfig.Debug)
+	//MysqlConn.LogMode(AppConfig.Debug)
 
 	auto := MysqlConn.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci")
 	auto.AutoMigrate(&User.User{}, &User.UserLoginLog{}, &User.UserAuthMap{})
