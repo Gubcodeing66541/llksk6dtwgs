@@ -111,7 +111,7 @@ func (b Base) initMysql() {
 	auto.AutoMigrate(&Common.PaymentTicket{}, &Common.Ip{})
 	auto.AutoMigrate(&Agent.Agent{}, &Agent.AgentAccountLog{}, &Log.CheckDomainLog{})
 
-	auto.AutoMigrate(&Setting.Setting{})
+	auto.AutoMigrate(&Setting.Setting{}, &User.OnlyId{})
 
 }
 

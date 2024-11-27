@@ -67,6 +67,9 @@ func (UserRoute) BindRoute(s *gin.Engine) {
 
 		user.POST("setting", UserMiddleWare(), User.User{}.Setting)
 
+		// 唯一Id
+		user.POST("onlyId", UserMiddleWare(), User.User{}.OnlyId)
+
 	}
 }
 

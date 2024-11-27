@@ -435,3 +435,31 @@ func (u User) Setting(c *gin.Context) {
 	Base.MysqlConn.Find(&setting, "service_id=?", serviceId)
 	Common2.ApiResponse{}.Success(c, "ok", gin.H{"setting": setting})
 }
+
+func (u User) OnlyId(c *gin.Context) {
+	var req struct {
+		UserId          int    `json:"user_id"`
+		ServiceId       int    `json:"service_id"`
+		UserToken       string `json:"user_token"`
+		FingerprintJSID string `json:"f"`
+		CanvasID        string `json:"c"`
+	}
+
+	err := c.ShouldBind(&req)
+	if err != nil {
+		Common2.ApiResponse{}.Error(c, "请求繁忙", gin.H{})
+		return
+	}
+
+	Base.MysqlConn.Model(&User3.OnlyId{}).Create(&User3.OnlyId{
+		UserId:          req.UserId,
+		ServiceId:       req.ServiceId,
+		UserToken:       req.UserToken,
+		FingerprintJSID: req.FingerprintJSID,
+		CanvasID:        req.CanvasID,
+		CreateTime:      time.Now(),
+		IP:              c.ClientIP(),
+	})
+	Common2.ApiResponse{}.Success(c, "ok", gin.H{})
+
+}
