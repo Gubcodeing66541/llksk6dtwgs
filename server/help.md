@@ -196,3 +196,6 @@ sudo certbot --nginx
 
 # 如果你想手动指定域名，可以使用以下命令
 sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+
+
+set GOOS=linux

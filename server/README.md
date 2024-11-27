@@ -21,3 +21,6 @@ sudo certbot certonly --standalone --preferred-challenges http -d fpn.agorns.com
 
 # email:
 adambuckland43@gmail.com
+
+
+set GOOS=linux
