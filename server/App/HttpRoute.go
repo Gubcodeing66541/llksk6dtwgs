@@ -29,6 +29,7 @@ func (HttpRoute) BindRoute(s *gin.Engine) {
 	Router.ServiceRoute{}.BindRoute(s)
 	Router.UserRoute{}.BindRoute(s)
 	Router.AgentRoute{}.BindRoute(s)
+	Router.Telegram{}.BindRoute(s)
 }
 
 // 所有接口进行限流

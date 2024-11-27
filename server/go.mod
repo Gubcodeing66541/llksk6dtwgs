@@ -12,6 +12,7 @@ require (
 	github.com/go-openapi/swag v0.22.4 // indirect
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
 	github.com/gorilla/websocket v1.5.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/livekit/protocol v1.5.6
@@ -20,7 +21,7 @@ require (
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.5.3
 	github.com/swaggo/swag v1.16.1
-	github.com/urfave/cli/v2 v2.25.7 // indirect
+	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	golang.org/x/time v0.3.0
 	golang.org/x/tools v0.10.0 // indirect
 )
