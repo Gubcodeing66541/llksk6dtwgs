@@ -6,7 +6,6 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"server/App"
-	"server/App/Server"
 	"server/Base"
 	_ "server/docs" //依赖项必须导入
 )
@@ -30,9 +29,9 @@ func main() {
 	}
 
 	//监听消息队列启动
-	if Base.AppConfig.Model != "dev" {
-		Server.NsqServer{}.Run("group")
-	}
+	//if Base.AppConfig.Model != "dev" {
+	//	Server.NsqServer{}.Run("group")
+	//}
 
 	//启动服务
 	_ = HttpServer.Run(fmt.Sprintf(":%d", Base.AppConfig.Port))
